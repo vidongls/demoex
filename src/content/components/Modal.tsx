@@ -4,11 +4,10 @@ import ReactDOM from 'react-dom'
 interface IMoDalProps {
   isShowing: boolean
   hide: () => void
-  data: any
+  content?: React.ReactNode
 }
 
-const Modal: React.FC<IMoDalProps> = ({ isShowing, hide, data }) => {
-
+const Modal: React.FC<IMoDalProps> = ({ isShowing, hide, content }) => {
   return isShowing
     ? ReactDOM.createPortal(
         <>
@@ -20,19 +19,7 @@ const Modal: React.FC<IMoDalProps> = ({ isShowing, hide, data }) => {
                   <span>×</span>
                 </button>
               </div>
-              <div className="modal-content">
-                <img src={data?.images[0]} alt="" />
-
-                <div>
-                  <span>Price:</span>
-                  <span>{data?.price}</span>
-                </div>
-
-                <div className="box-property">
-                  <div className="ex-property">{data?.color}</div>
-                  <div className="ex-property">{data?.property}</div>
-                </div>
-              </div>
+              <div className="modal-content">{content ? content : null}</div>
             </div>
           </div>
         </>,

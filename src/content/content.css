@@ -57,9 +57,13 @@
   position: relative;
   margin: 1.75rem auto;
   border-radius: 3px;
-  max-width: 620px;
+  max-width: 680px;
   padding: 2rem;
   border: 1px solid #000;
+}
+.modal-content {
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .modal-header {
@@ -91,20 +95,28 @@ button {
   color: #fff;
 }
 
-.modal-content {
+.popup-cart .name {
+  font-size: 26px;
+  font-weight: 500;
+  color: rgb(236, 61, 236);
+  margin-bottom: 18px;
+  line-height: 28px;
+}
+.popup-cart {
   text-align: center;
   font-size: 20px;
   font-weight: 500;
   color: rgb(236, 61, 236);
 }
-.modal-content img {
+
+.popup-cart img {
   width: 70%;
   height: 100%;
   object-fit: cover;
   margin-bottom: 12px;
 }
 
-.modal-content .box-property {
+.popup-cart .box-property {
   margin-top: 12px;
   display: flex;
   align-items: center;
@@ -120,4 +132,27 @@ button {
 
 .box-property .ex-property:first-child {
   margin-right: 6px;
+}
+
+.btn.info {
+  background: rgb(240, 136, 136);
+  border: 1px solid rgb(170, 97, 97);
+}
+.btn.info:hover {
+  background: rgb(206, 153, 153);
+}
+.detail-page .article__content {
+  height: unset;
+}
+.detail-page__image{
+    width: 100%;
+}
+.detail-page__name{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.flex {
+     display: flex;
 }
