@@ -18,7 +18,6 @@ const Footer: React.FC<IFooterProps> = (props) => {
   const [data, setData] = useState({} as any)
 
   const onAddToCart = () => {
-
     setData(getDataFromEle())
     // chrome.runtime.sendMessage({
     //   data: productData,
@@ -28,8 +27,6 @@ const Footer: React.FC<IFooterProps> = (props) => {
   }
 
   const getInfo = () => {
-
-
     setData(getDataFromEle())
     // chrome.runtime.sendMessage({
     //   data: productData,
@@ -38,15 +35,16 @@ const Footer: React.FC<IFooterProps> = (props) => {
     toggleInfo()
   }
 
-  const getDataFromEle=()=>{
+  const getDataFromEle = () => {
     const property = document.querySelector('.box03.group.desk .box03__item.item.act')?.textContent
     const color = document.querySelector(
       '.box03.group.color.desk .box03__item.item.act',
     )?.textContent
     const price = document.querySelector('.box-price-present')?.textContent?.replace('*', '')
-    const imageNodeList = document.querySelectorAll(
-      '.box01__show .detail-slider .owl-stage .owl-item img',
-    )
+    // const imageNodeList = document.querySelectorAll(
+    //   '.box01__show .detail-slider .owl-stage .owl-item img',
+    // )
+    const images:any = document.querySelector('.img-main img')
     const name = document.querySelector('.detail h1')?.textContent
     const detail = document.querySelector('.content-article')?.textContent
     const rateEle = document.querySelector('.rating-top .list-star')?.outerHTML.toString()
@@ -63,25 +61,23 @@ const Footer: React.FC<IFooterProps> = (props) => {
       })
     })
 
-    const images = [] as any
+    // const images = [] as any
 
-    imageNodeList.forEach((img: any) => {
-      if (img?.src) {
-        images.push(img.src)
-      } else {
-        images.push(img.getAttribute('data-src'))
-      }
-    })
-
+    // imageNodeList.forEach((img: any) => {
+    //   if (img?.src) {
+    //     images.push(img.src)
+    //   } else {
+    //     images.push(img.getAttribute('data-src'))
+    //   }
+    // })
     const id = window.location.pathname.split('/')[2]
-
     const productData = {
       id,
       name,
       property,
       color,
       price,
-      images,
+      images: `${window.location.protocol}${images?.getAttribute('data-src')}`,
       detail,
       rate: {
         rateNumber,
@@ -91,9 +87,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
     }
     return productData
   }
-
-
-
+console.log(data)
   return (
     <>
       <div className="ivgnod-ex-footer">
@@ -116,7 +110,10 @@ const Footer: React.FC<IFooterProps> = (props) => {
           hide={toggle}
           content={
             <div className="popup-cart">
-              <img src={data?.images ? data?.images[0] : ''} alt="" />
+             <img
+                  src={data?.images || ''}
+                  alt=""
+                />
 
               <div className="name">{data?.name}</div>
 
@@ -148,14 +145,14 @@ const Footer: React.FC<IFooterProps> = (props) => {
               <div>
                 <img
                   className="detail-page__image"
-                  src={data?.images ? data?.images[0] : ''}
+                  src={data?.images || ''}
                   alt=""
                 />
               </div>
               <div>{data?.detail}</div>
-              <div className="parameter__list" style={{display:'block'}}>
-                {data?.properties?.map((item: any) => (
-                  <li>
+              <div className="parameter__list" style={{ display: 'block' }}>
+                {data?.properties?.map((item: any, idx: number) => (
+                  <li key={idx}>
                     <p className="lileft">{item.label}</p>
                     <div className="liright">{item.property}</div>
                   </li>
