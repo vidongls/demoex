@@ -17,21 +17,25 @@ const Footer: React.FC<IFooterProps> = (props) => {
 
   const [data, setData] = useState({} as any)
 
-  //   const [priceDisplay, setPriceDisplay] = useState('')
+  const [priceDisplay, setPriceDisplay] = useState('')
 
-  //   useEffect(() => {
-  //     document.querySelectorAll('.box-price').forEach((ele) => {
-  //       return ele.addEventListener('click', (e) => handleClick(e, ele))
-  //     })
+  useEffect(() => {
+    setPriceDisplay(
+      document.querySelector('.box-price.jsClick.active .box-price-present')?.textContent || '',
+    )
 
-  //     return () => {
-  //       window.removeEventListener('click', (e) => handleClick)
-  //     }
-  //   }, [])
+    document.querySelectorAll('.box-price').forEach((ele) => {
+      return ele.addEventListener('click', (e) => handleClick(e, ele))
+    })
 
-  //   const handleClick = (e: any, ele: any) => {
-  //     setPriceDisplay(ele.querySelector('.box-price-present')?.textContent?.replace('*', ''))
-  //   }
+    return () => {
+      window.removeEventListener('click', (e) => handleClick)
+    }
+  }, [])
+
+  const handleClick = (e: any, ele: any) => {
+    setPriceDisplay(ele.querySelector('.box-price-present')?.textContent?.replace('*', ''))
+  }
 
   const onAddToCart = () => {
     setData(getDataFromEle())
@@ -56,7 +60,12 @@ const Footer: React.FC<IFooterProps> = (props) => {
     const color = document.querySelector(
       '.box03.group.color.desk .box03__item.item.act',
     )?.textContent
-    const price = document.querySelector('.box-price-present')?.textContent?.replace('*', '')
+    const price = document.querySelector('.box-price.jsClick.active')
+      ? document
+          .querySelector('.box-price.jsClick.active .box-price-present')
+          ?.textContent?.replace('*', '')
+      : document.querySelector('.box-price-present')?.textContent?.replace('*', '')
+
     // const imageNodeList = document.querySelectorAll(
     //   '.box01__show .detail-slider .owl-stage .owl-item img',
     // )
@@ -109,10 +118,8 @@ const Footer: React.FC<IFooterProps> = (props) => {
         <div>
           <div style={{ marginRight: '6px' }}>Price:</div>
           <div>
-            {document.querySelector('.box-price.jsClick.active')
-              ? document
-                  .querySelector('.box-price.jsClick.active .box-price-present')
-                  ?.textContent?.replace('*', '')
+            {priceDisplay
+              ? priceDisplay
               : document.querySelector('.box-price-present')?.textContent?.replace('*', '')}
           </div>
         </div>
