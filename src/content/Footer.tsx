@@ -18,33 +18,8 @@ const Footer: React.FC<IFooterProps> = (props) => {
   const [data, setData] = useState({} as any)
 
   const onAddToCart = () => {
-    const property = document.querySelector('.box03.group.desk .box03__item.item.act')?.textContent
-    const color = document.querySelector(
-      '.box03.group.color.desk .box03__item.item.act',
-    )?.textContent
-    const price = document.querySelector('.box-price-present')?.textContent?.replace('*', '')
-    const imageNodeList = document.querySelectorAll(
-      '.box01__show .detail-slider .owl-stage .owl-item img',
-    )
 
-    const name = document.querySelector('.detail h1')?.textContent
-
-    const detail = document.querySelector('.article__content')?.outerHTML.toString()
-
-    const images = [] as any
-
-    imageNodeList.forEach((img: any) => {
-      if (img?.src) {
-        images.push(img.src)
-      } else {
-        images.push(img.getAttribute('data-src'))
-      }
-    })
-    const id = window.location.pathname.split('/')[2]
-
-    const productData = { id, name, property, color, price, images, detail: detail, quantity: 1 }
-
-    setData(productData)
+    setData(getDataFromEle())
     // chrome.runtime.sendMessage({
     //   data: productData,
     // })
@@ -53,6 +28,17 @@ const Footer: React.FC<IFooterProps> = (props) => {
   }
 
   const getInfo = () => {
+
+
+    setData(getDataFromEle())
+    // chrome.runtime.sendMessage({
+    //   data: productData,
+    // })
+
+    toggleInfo()
+  }
+
+  const getDataFromEle=()=>{
     const property = document.querySelector('.box03.group.desk .box03__item.item.act')?.textContent
     const color = document.querySelector(
       '.box03.group.color.desk .box03__item.item.act',
@@ -61,12 +47,21 @@ const Footer: React.FC<IFooterProps> = (props) => {
     const imageNodeList = document.querySelectorAll(
       '.box01__show .detail-slider .owl-stage .owl-item img',
     )
-
     const name = document.querySelector('.detail h1')?.textContent
+    const detail = document.querySelector('.content-article')?.textContent
+    const rateEle = document.querySelector('.rating-top .list-star')?.outerHTML.toString()
+    const rateNumber = document.querySelector('.rating-top .point')?.textContent
 
-    const detail = document.querySelector('.article__content')?.outerHTML.toString()
-    const rate = document.querySelector('.box02 .box02__left')?.outerHTML.toString()
-    const parameter = document.querySelector('.parameter .parameter__list')?.outerHTML.toString()
+    const propertiesNode = document.querySelectorAll('.parameter .parameter__list li')
+
+    const properties: any = []
+
+    propertiesNode.forEach((element) => {
+      properties.push({
+        label: element.querySelector('.lileft')?.textContent,
+        property: element.querySelector('.liright')?.textContent,
+      })
+    })
 
     const images = [] as any
 
@@ -87,18 +82,17 @@ const Footer: React.FC<IFooterProps> = (props) => {
       color,
       price,
       images,
-      detail: detail,
-      rate,
-      parameter,
+      detail,
+      rate: {
+        rateNumber,
+        rateEle,
+      },
+      properties,
     }
-
-    setData(productData)
-    // chrome.runtime.sendMessage({
-    //   data: productData,
-    // })
-
-    toggleInfo()
+    return productData
   }
+
+
 
   return (
     <>
@@ -148,7 +142,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
             <div className="detail-page">
               <div className="detail-page__name flex">
                 <span style={{ marginRight: 12 }}>{data?.name}</span>
-                <span dangerouslySetInnerHTML={{ __html: data?.rate }}></span>
+                <span dangerouslySetInnerHTML={{ __html: data?.rate?.rateEle }}></span>
               </div>
 
               <div>
@@ -158,9 +152,15 @@ const Footer: React.FC<IFooterProps> = (props) => {
                   alt=""
                 />
               </div>
-
-              <div dangerouslySetInnerHTML={{ __html: data?.detail }}></div>
-              <div dangerouslySetInnerHTML={{ __html: data?.parameter }}></div>
+              <div>{data?.detail}</div>
+              <div className="parameter__list" style={{display:'block'}}>
+                {data?.properties?.map((item: any) => (
+                  <li>
+                    <p className="lileft">{item.label}</p>
+                    <div className="liright">{item.property}</div>
+                  </li>
+                ))}
+              </div>
             </div>
           }
         />
