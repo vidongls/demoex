@@ -17,6 +17,22 @@ const Footer: React.FC<IFooterProps> = (props) => {
 
   const [data, setData] = useState({} as any)
 
+//   const [priceDisplay, setPriceDisplay] = useState('')
+
+//   useEffect(() => {
+//     document.querySelectorAll('.box-price').forEach((ele) => {
+//       return ele.addEventListener('click', (e) => handleClick(e, ele))
+//     })
+
+//     return () => {
+//       window.removeEventListener('click', (e) => handleClick)
+//     }
+//   }, [])
+
+//   const handleClick = (e: any, ele: any) => {
+//     setPriceDisplay(ele.querySelector('.box-price-present')?.textContent?.replace('*', ''))
+//   }
+
   const onAddToCart = () => {
     setData(getDataFromEle())
     // chrome.runtime.sendMessage({
@@ -44,7 +60,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
     // const imageNodeList = document.querySelectorAll(
     //   '.box01__show .detail-slider .owl-stage .owl-item img',
     // )
-    const images:any = document.querySelector('.img-main img')
+    const images: any = document.querySelector('.img-main img')
     const name = document.querySelector('.detail h1')?.textContent
     const detail = document.querySelector('.content-article')?.textContent
     const rateEle = document.querySelector('.rating-top .list-star')?.outerHTML.toString()
@@ -87,13 +103,16 @@ const Footer: React.FC<IFooterProps> = (props) => {
     }
     return productData
   }
-console.log(data)
   return (
     <>
       <div className="ivgnod-ex-footer">
         <div>
           <div style={{ marginRight: '6px' }}>Price:</div>
-          <div>{document.querySelector('.box-price-present')?.textContent?.replace('*', '')}</div>
+          <div>
+            {document.querySelector('.box-price.jsClick.active')
+              ? document.querySelector('.box-price.jsClick.active .box-price-present')?.textContent
+              : document.querySelector('.box-price-present')?.textContent?.replace('*', '')}
+          </div>
         </div>
         <div>
           <button className="btn info" onClick={getInfo} disabled={isShowInfo}>
@@ -110,10 +129,7 @@ console.log(data)
           hide={toggle}
           content={
             <div className="popup-cart">
-             <img
-                  src={data?.images || ''}
-                  alt=""
-                />
+              <img src={data?.images || ''} alt="" />
 
               <div className="name">{data?.name}</div>
 
@@ -143,11 +159,7 @@ console.log(data)
               </div>
 
               <div>
-                <img
-                  className="detail-page__image"
-                  src={data?.images || ''}
-                  alt=""
-                />
+                <img className="detail-page__image" src={data?.images || ''} alt="" />
               </div>
               <div>{data?.detail}</div>
               <div className="parameter__list" style={{ display: 'block' }}>
