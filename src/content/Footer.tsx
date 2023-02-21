@@ -17,21 +17,21 @@ const Footer: React.FC<IFooterProps> = (props) => {
 
   const [data, setData] = useState({} as any)
 
-//   const [priceDisplay, setPriceDisplay] = useState('')
+  //   const [priceDisplay, setPriceDisplay] = useState('')
 
-//   useEffect(() => {
-//     document.querySelectorAll('.box-price').forEach((ele) => {
-//       return ele.addEventListener('click', (e) => handleClick(e, ele))
-//     })
+  //   useEffect(() => {
+  //     document.querySelectorAll('.box-price').forEach((ele) => {
+  //       return ele.addEventListener('click', (e) => handleClick(e, ele))
+  //     })
 
-//     return () => {
-//       window.removeEventListener('click', (e) => handleClick)
-//     }
-//   }, [])
+  //     return () => {
+  //       window.removeEventListener('click', (e) => handleClick)
+  //     }
+  //   }, [])
 
-//   const handleClick = (e: any, ele: any) => {
-//     setPriceDisplay(ele.querySelector('.box-price-present')?.textContent?.replace('*', ''))
-//   }
+  //   const handleClick = (e: any, ele: any) => {
+  //     setPriceDisplay(ele.querySelector('.box-price-present')?.textContent?.replace('*', ''))
+  //   }
 
   const onAddToCart = () => {
     setData(getDataFromEle())
@@ -110,7 +110,9 @@ const Footer: React.FC<IFooterProps> = (props) => {
           <div style={{ marginRight: '6px' }}>Price:</div>
           <div>
             {document.querySelector('.box-price.jsClick.active')
-              ? document.querySelector('.box-price.jsClick.active .box-price-present')?.textContent
+              ? document
+                  .querySelector('.box-price.jsClick.active .box-price-present')
+                  ?.textContent?.replace('*', '')
               : document.querySelector('.box-price-present')?.textContent?.replace('*', '')}
           </div>
         </div>
