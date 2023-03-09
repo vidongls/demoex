@@ -7,9 +7,14 @@ const useModal = () => {
     setIsShowing(!isShowing)
   }
 
+  function onHide() {
+    setIsShowing(false)
+  }
+
   return {
     isShowing,
     toggle,
+    onHide,
   }
 }
 

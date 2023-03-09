@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import './content.css'
 import useModal from './hooks/useModal'
 import Modal from './components/Modal'
+import { ACTION } from '../popup/Popup'
 
 interface IFooterProps {}
 
@@ -12,8 +13,8 @@ interface IFooterProps {}
 // })
 
 const Footer: React.FC<IFooterProps> = (props) => {
-  const { isShowing, toggle } = useModal()
-  const { isShowing: isShowInfo, toggle: toggleInfo } = useModal()
+  const { isShowing, toggle,onHide } = useModal()
+  const { isShowing: isShowInfo, toggle: toggleInfo, onHide: onHideInfo } = useModal()
 
   const [data, setData] = useState({} as any)
 
@@ -37,12 +38,24 @@ const Footer: React.FC<IFooterProps> = (props) => {
     setPriceDisplay(ele.querySelector('.box-price-present')?.textContent?.replace('*', ''))
   }
 
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+      if (request === ACTION.GET_INFO) {
+        getInfo()
+      }
+
+      if (request === ACTION.ADD_TO_CART) {
+        onAddToCart()
+      }
+    })
+  }, [])
+
   const onAddToCart = () => {
     setData(getDataFromEle())
     // chrome.runtime.sendMessage({
     //   data: productData,
     // })
-
+    onHideInfo()
     toggle()
   }
 
@@ -52,6 +65,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
     //   data: productData,
     // })
 
+    onHide()
     toggleInfo()
   }
 
@@ -112,6 +126,7 @@ const Footer: React.FC<IFooterProps> = (props) => {
     }
     return productData
   }
+
   return (
     <>
       <div className="ivgnod-ex-footer">
@@ -123,14 +138,14 @@ const Footer: React.FC<IFooterProps> = (props) => {
               : document.querySelector('.box-price-present')?.textContent?.replace('*', '')}
           </div>
         </div>
-        <div>
+        {/* <div>
           <button className="btn info" onClick={getInfo} disabled={isShowInfo}>
             GetInfo
           </button>
           <button className="btn" onClick={onAddToCart} disabled={isShowing}>
             Add to cart
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="ivgnod-ex-modal">
         <Modal
