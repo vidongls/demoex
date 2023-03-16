@@ -17,7 +17,7 @@ function App() {
     // })
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs: any) {
-      chrome.tabs.sendMessage(tabs[0].id, action, function (response) {
+      chrome.tabs.sendMessage(tabs[0].id, {action}, function (response) {
         console.log(response)
       })
     })

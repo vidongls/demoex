@@ -40,11 +40,11 @@ const Footer: React.FC<IFooterProps> = (props) => {
 
   useEffect(() => {
     chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-      if (request === ACTION.GET_INFO) {
+      if (request.action === ACTION.GET_INFO) {
         getInfo()
       }
 
-      if (request === ACTION.ADD_TO_CART) {
+      if (request.action === ACTION.ADD_TO_CART) {
         onAddToCart()
       }
     })
